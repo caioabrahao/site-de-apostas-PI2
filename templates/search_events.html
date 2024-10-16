@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Eventos</title>
+    <style>
+        .botao {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: green;
+            border: none;
+            border-radius: 5px; 
+            text-decoration: none; 
+        }
+
+        .botao:hover {
+            background-color: darkgreen;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">SerasaBET</h1>
+    <a href="{{url_for('home')}}">Home</a>
+    <hr>
+    <p>Olá, {{user_firstname}}</p>
+    <p>Saldo R$ {{user_funds}}</p>
+    <a href="{{url_for('my_wallet')}}">Minha Carteira</a>
+    <br>
+    <a href="{{url_for('logout')}}">Logout</a>
+    <hr>
+    <h2 style="text-align: center;">BUSCAR EVENTOS</h2>
+    <p>{{num_resultados}} Evento(s) encontrados:</p>
+    {% if no_results_found %}
+    <h3 style="text-align: center;">Nenhum evento encontrado!</h3>
+    {% else %}
+        {% for resultado in lista_resultados %}
+    <br>
+    <hr>
+    <h3>{{resultado.title}}</h3>
+    <h4>Descrição: {{resultado.description}}</h4>
+    <h4>Id do Evento: {{resultado.event_id}}</h4>
+    <h4>Data do Evento: {{resultado.event_date}}</h4>
+    <br>
+    <a href="{{url_for('bet_on_event', event_id = resultado.event_id)}}" class="botao">Ir para Evento</a>
+    <br>
+    <hr>
+    <br>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>

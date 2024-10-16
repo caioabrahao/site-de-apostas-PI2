@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sem Permissão</title>
+
+    <style>
+        .container {
+            
+            display: flex;
+            align-self: center;
+            align-items: center;
+            margin-top: 100px;
+            margin-right:350px;
+            margin-left: 350px;
+        }
+
+        .container img { 
+            align-items: center;
+            width: 500px;
+            margin-right: 10px;
+        }
+        
+        .container .text{
+
+            text-align: center;
+            margin-left: 40px;
+            margin-right: 40px;
+            flex: 1;
+
+        }
+        .botao_verde {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 20px;
+            color: white;
+            background-color: green;
+            border: none;
+            border-radius: 5px; 
+            text-decoration: none; 
+        }
+        .botao_verde:hover {
+            background-color: darkgreen;
+        }
+
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">SerasaBET</h1>
+    <a href="{{url_for('home')}}">Home</a>
+    <hr>
+    <p>Olá, {{user_firstname}}</p>
+    <p>Saldo R$ {{user_funds}}</p>
+    <a href="{{url_for('my_wallet')}}">Minha Carteira</a>
+    <br>
+    <a href="{{url_for('logout')}}">Logout</a>
+    <hr>
+
+    <div class="container">
+        <img src="{{url_for('static', filename = 'imagens/no_permission.jpeg')}}" alt="Sem permissão" title="Você não pode passar aqui, carinha. Dê meia volta">
+        <div class="text">
+            <h2>Você não tem autorização para visualizar essa página</h2>
+            <a class="botao_verde" href="{{url_for('home')}}">Voltar a Home</a>
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico de Transações</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+</head>
+<body>
+    <h1 style="text-align: center;">SerasaBET</h1>
+    <a href="{{url_for('home')}}">Home</a>
+    <hr>
+    <p>Olá, {{user_firstname}}</p>
+    <p>Saldo R$ {{user_funds}}</p>
+    <a href="{{url_for('my_wallet')}}">Minha Carteira</a>
+    <br>
+    <a href="{{url_for('logout')}}">Logout</a>
+    <hr>
+    <br>
+    <h2>Histórico de Transações</h2>
+    <br>
+    <p>{{numero_linhas}} transações encontradas</p>
+    {% if no_transaction_found %}
+    <p>Não há nenhum histórico de transação para esta conta</p>
+    {% else %}
+    <table>
+        <tr>
+            <th>Id Transação</th>
+            <th>Data</th>
+            <th>Valor</th>
+            <th>Tipo de Transação</th>
+        </tr>
+        {% for transaction in transactions %}
+        <tr>
+            <td>{{transaction.id_transaction}}</td>
+            <td>{{transaction.date}}</td>
+            <td>{{transaction.value}}</td>
+            <td>{{transaction.type}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+    
+</body>
+</html>

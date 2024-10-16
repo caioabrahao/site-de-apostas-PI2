@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Saldo</title>
+</head>
+<body>
+    <h1 style="text-align: center;">SerasaBET</h1>
+    <a href="{{url_for('home')}}">Home</a>
+    <hr>
+    <p>Olá, {{user_firstname}}</p>
+    <p>Saldo R$ {{user_funds}}</p>
+    <a href="{{url_for('my_wallet')}}">Minha Carteira</a>
+    <br>
+    <a href="{{url_for('logout')}}">Logout</a>
+    <hr>
+    <br>
+    {% if add_funds_success %}
+    <h2 style="text-align: center;">Saldo adicionado com sucesso!</h2>
+    <h3 style="text-align: center;">Saldo adicionado: R$ {{deposit_value}}</h3>
+    <h3 style="text-align: center;">Novo Saldo: R$ {{user_funds}}</h3>
+    <p style="text-align: center;"><i>ID da transação: {{id_transaction}}</i></p>
+    <br>
+    <div style="text-align: center;">
+    <a href="{{url_for('home')}}" style="display: inline-block; padding: 10px 20px; background-color:darkgreen; color: white; text-align: center; text-decoration: none; border-radius: 5px;">
+        Ir para Home
+    </a>
+    </div>
+    {% else %}
+    <h2 style="text-align: center; color:darkred;">Houve um erro com a transação!</h2>
+    <h3 style="text-align: center;">Tente novamente mais tarde</h3>
+    <p style="text-align: center;"><i>Código do Erro: {{erro_insert_oracle}}</i></p>
+    <br>
+    <div style="text-align: center;">
+        <a href="{{url_for('home')}}" style="display: inline-block; padding: 10px 20px; background-color:darkgreen; color: white; text-align: center; text-decoration: none; border-radius: 5px;">
+            Ir para Home
+        </a>
+    </div>
+    {% endif %}
+</body>
+</html>

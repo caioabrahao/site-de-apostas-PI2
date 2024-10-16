@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Evento</title>
+</head>
+<body>
+    <h1 style="text-align: center;">SerasaBET</h1>
+    <a href="{{url_for('home')}}">Home</a>
+    <hr>
+    <p>Olá, {{user_firstname}}</p>
+    <p>Saldo R$ {{user_funds}}</p>
+    <a href="{{url_for('my_wallet')}}">Minha Carteira</a>
+    <br>
+    <a href="{{url_for('logout')}}">Logout</a>
+    <hr>
+    <h2 style="text-align: center;">CRIAR EVENTO</h2>
+    <form method="POST" action="/addNewEvent">
+        <fieldset style="align-self: center;">
+            <label>Título do Evento</label>
+            <input type="text" name="txt_titleName" maxlength="50" required>
+            <p style="font-size: small; font-style: italic;">Crie um título suscinto do evento (máximo 50 caracteres)</p>
+            <br>
+            <label>Descrição</label>
+            <input type="text" name="txt_description" maxlength="300" required style="width: 50%;">
+            <p style="font-size: small; font-style: italic;">Faça uma descrição mais detalhada sobre o evento (máximo 300 caracteres)</p>
+            <br>
+            <label>Cota Mínima de Aposta</label>
+            <br>
+            <br> R$
+            <input type="number" name="txt_eventMinQuota" min="1" max="20" step="0.50">
+            <p style="font-size: small; font-style: italic;">Valor mínimo de aposta para os participantes</p>
+            <br>
+            <label>Categoria</label>
+            <select name="txt_category">
+                <option value="BOLSA DE VALORES">Bolsa de Valores</option>
+                <option value="CELEBRIDADES">Celebridades</option>
+                <option value="EVENTOS CLIMÁTICOS">Eventos Climáticos</option>
+                <option value="E-SPORTS">E-Sports</option>
+                <option value="ELEIÇÕES/POLÍTICA">Eleições/Política</option>
+                <option value="FUTEBOL">Futebol</option>
+                <option value="OLIMPÍADAS">Olimpíadas</option>
+                <option value="OUTROS">Outros</option>
+            </select>
+            <br>
+            <br>
+            <label>Data do Evento</label>
+            <input type="date" name="date_eventDate" required>
+            <p style="font-size: small; font-style: italic;">Data em que ocorrerá o evento</p>
+            <br>
+            <br>
+            <button type="submit">Criar Evento</button>
+        </fieldset>
+    </form>
+</html>

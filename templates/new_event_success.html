@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Evento</title>
+</head>
+<body>
+    <h1 style="text-align: center;">SerasaBET</h1>
+    <a href="{{url_for('home')}}">Home</a>
+    <hr>
+    <p>Olá, {{user_firstname}}</p>
+    <p>Saldo R$ {{user_funds}}</p>
+    <a href="{{url_for('my_wallet')}}">Minha Carteira</a>
+    <br>
+    <a href="{{url_for('logout')}}">Logout</a>
+    <hr>
+    {% if new_event_success %}
+    <h3 style="text-align: center;">Evento Criado com Sucesso!</h3>
+    <p style="text-align: center;">Seu evento será revisado pela equipe de moderação</p>
+    <p style="text-align: center;">O resultado da revisão será enviado a seu email</p>
+    {% else %}
+    <h3 style="text-align: center;">Houve um Erro ao criar o Evento!</h3>
+    <p style="text-align: center;">ERRO: {{erro_insert_oracle}}</p>
+    {% endif %}
+    <form style="text-align: center;" action="/home">
+        <button type="submit">Voltar a Home</button>
+    </form>
+</body>
+</html>

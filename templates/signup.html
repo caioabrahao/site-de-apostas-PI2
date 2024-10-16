@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar</title>
+</head>
+<body>
+    <h1 style="text-align: center;">SerasaBET</h1>
+    <hr>
+    <h2 style="text-align: center;">CADASTRAR</h2>
+    <form method="POST" action='/signUp'>
+        <fieldset>
+            <legend>Dados Pessoais</legend>
+            <label>Primeiro Nome</label>
+            <input type="text" name="txtSignUp_Name" minlength="1" maxlength="30" required>
+            <br>
+            <label>Sobrenome</label>
+            <input type="text" name="txtSignUp_Surname" minlength='1' maxlength="255" required>
+            <br>
+            <label>CPF</label>
+            <input type="txt" inputmode="numeric"  name="txtSignUp_CPF" minlength="11" maxlength="11" placeholder="XXX.XXX.XXX-XX" required>
+            {% if cpf_valido == false %}
+            <p>Erro: CPF já existe!</p>
+            {% endif %}
+            <br>
+            <label>Data de Nascimento</label>
+            <input type="date" name="dateSignUp_Date" required>
+            {% if data_valida == false %}
+            <p>Erro: Você deve ser maior de 18 anos para usar a plataforma!</p>
+            {% endif %}
+            <br>
+            <label>Telefone</label>
+            <input type="txt" inputmode="numeric" name="txtSignUp_Phone" placeholder="(XX) XXXXX-XXXX">
+        </fieldset>
+        <br>
+        <br>
+        <fieldset>
+            <legend>Endereço</legend>
+            <label>Logradouro</label>
+            <input type="text" name="txtSignUp_AddressName" minlength="5" maxlength="255" required>
+            <br>
+            <label>Número</label>
+            <input type="text" name="txtSignUp_AddressNumber" minlength="1" maxlength="5" required>
+            <br>
+            <label>Código Postal</label>
+            <input type="text" name="txtSignUp_CEP" minlength="8" maxlength="8" required>
+            <br>
+            <label>Cidade</label>
+            <input type="text" name="txtSignUp_City" minlength="2" maxlength="40">
+            <br>
+            <label>Estado</label>
+            <select name="txtSignUp_State">
+                <option value="AC">Acre</option>
+                <option value="AL">Alagoas</option>
+                <option value="AP">Amapá</option>
+                <option value="AM">Amazonas</option>
+                <option value="BA">Bahia</option>
+                <option value="CE">Ceará</option>
+                <option value="DF">Distrito Federal</option>
+                <option value="ES">Espírito Santo</option>
+                <option value="GO">Goiás</option>
+                <option value="MA">Maranhão</option>
+                <option value="MT">Mato Grosso</option>
+                <option value="MS">Mato Grosso do Sul</option>
+                <option value="MG">Minas Gerais</option>
+                <option value="PA">Pará</option>
+                <option value="PB">Paraíba</option>
+                <option value="PR">Paraná</option>
+                <option value="PE">Pernambuco</option>
+                <option value="PI">Piauí</option>
+                <option value="RJ">Rio de Janeiro</option>
+                <option value="RN">Rio Grande do Norte</option>
+                <option value="RS">Rio Grande do Sul</option>
+                <option value="RO">Rondônia</option>
+                <option value="RR">Roraima</option>
+                <option value="SC">Santa Catarina</option>
+                <option value="SP">São Paulo</option>
+                <option value="SE">Sergipe</option>
+                <option value="TO">Tocantins</option>
+            </select>
+        </fieldset>
+        <br>
+        <br>
+        <fieldset>
+            <legend>Informações de Login</legend>
+            <label>Endereço de Email</label>
+            <input type="email" name="emailSignUp_email" required>
+            {% if email_valido is false %}
+            <p>Email inválido! Login já cadastrado</p>
+            {% endif %}
+            <br>
+            <label>Senha</label>
+            <input type="password" name="pwSignUp_password_1" required>
+            <br>
+            <label>Confirmar Senha</label>
+            <input type="password" name="pwSignUp_password_2" required>
+            {% if senha_valida is false %}
+            <p>Senhas não são idênticas!</p>
+            {% endif %}
+        </fieldset>
+        <br>
+        <br>
+        <fieldset>
+            <label>Declaro que sou maior de 18 anos</label>
+            <input type="checkbox" name="checkboxSignUp_over18" value="on">
+            <input type="hidden" name="checkboxSignUp_over18" value="off">
+            {% if checkbox_acima18_valido is false %}
+            <p>É necessário declarar sua maioridade para registrar-se</p>
+            {% endif %}
+            <br>
+            <label>Li e Concordo com os Termos de Uso da Plataforma</label>
+            <input type="checkbox" name="checkboxSignUp_agree" value="on">
+            <input type="hidden" name="checkboxSignUp_agree" value="off">
+            {% if checkbox_aceitar_valido is false %}¨
+            <p>É necessário aceitar os Termos de Uso da Plataforma para registrar-se</p>
+            {% endif %}
+        </fieldset>
+        <br>
+        <button type="submit">REGISTRAR</button>
+    </form>
+    <br>
+    <br>
+    {% if erro_oracle %}
+    <p>Ocorreu um erro: {{ erro_oracle }}</p>
+    {% endif %}
+</body>
+</html>

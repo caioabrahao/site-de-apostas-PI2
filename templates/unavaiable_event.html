@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evento Não Disponível</title>
+    <style>
+        .botao {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: green;
+            border: none;
+            border-radius: 5px; 
+            text-decoration: none; 
+        }
+
+        .botao:hover {
+            background-color: darkgreen;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">SerasaBET</h1>
+    <a href="{{url_for('home')}}">Home</a>
+    <hr>
+    <p>Olá, {{user_firstname}}</p>
+    <p>Saldo R$ {{user_funds}}</p>
+    <a href="{{url_for('my_wallet')}}">Minha Carteira</a>
+    <br>
+    <a href="{{url_for('logout')}}">Logout</a>
+    <hr>
+    <h2 style="text-align: center;">EVENTO INDISPONÍVEL</h2>
+    <h4 style="text-align: center;">Desculpe, não foi possível encontrar o evento</h4>
+    <p style="text-align: center;">O evento não existe, ou não foi aprovado pela moderação, ou já se encerrou</p>
+    <div style="text-align: center;">
+        <a href="{{url_for('home')}}" class="botao">Voltar a Home</a>
+    </div>
+    
+</body>
+</html>

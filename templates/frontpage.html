@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SerasaBET</title>
+
+    <style>
+        .container{
+
+            display: flex;
+            align-items: center;
+            margin: 50px;
+        }
+
+        .container img{
+
+            width: 800px;
+            margin-right: 10px;
+        }
+
+        .container .text{
+
+            flex: 1;
+
+        }
+
+        .botao_verde {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 20px;
+            color: white;
+            background-color: green;
+            border: none;
+            border-radius: 5px; 
+            text-decoration: none; 
+        }
+
+        .botao_verde:hover {
+            background-color: darkgreen;
+        }
+
+        .botao_azul {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 20px;
+            color: white;
+            background-color: deepskyblue;
+            border: none;
+            border-radius: 5px; 
+            text-decoration: none; 
+        }
+
+        .botao_azul:hover {
+            background-color:dodgerblue;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Bem-vindo ao SerasaBET!</h1>
+    <hr>
+    <br>
+    <div class="container">
+        <img src="{{url_for('static', filename='imagens/SerasaBET LOGO.png')}}" alt="SerasaBET LOGO" title="Um logo claramente não gerado por IA">
+        <div class="text">
+            <h1>Bem vindo ao maior site de apostas!</h1>
+            <h2><i>Jogue até se endividar!</i></h2>
+            <br>
+            <a href="{{url_for('login')}}" class="botao_verde">Login</a>
+            <br>
+            <br>
+            <a href="{{url_for('cadastrar')}}" class="botao_azul">Cadastrar</a>
+        </div>
+    </div>
+</body>
+</html>

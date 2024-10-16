@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        #searchEventBox {
+            text-align: center;
+            margin: 20px;
+            border: 2px solid green;
+            padding: 4px;
+            width: 400px;
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">SerasaBET</h1>
+    <a href="{{url_for('home')}}">Home</a>
+    <hr>
+    <p>Olá, {{user_firstname}}</p>
+    <p>Saldo R$ {{user_funds}}</p>
+    <a href="{{url_for('my_wallet')}}">Minha Carteira</a>
+    <br>
+    <a href="{{url_for('logout')}}">Logout</a>
+    <hr>
+    <div id="searchEventBox">
+        <p>Buscar evento</p>
+        <form method="get" action="{{url_for('search_events')}}">
+                <input type="text" placeholder="Pesquise pelo Título/Categoria/Descrição" name="txtInputSearchEvent" style="width: 300px;">
+                <button type="submit">Buscar</button>
+        </form>
+    </div>
+    <br>
+    <a href="{{url_for('add_new_event')}}">Criar Evento</a>
+    <br>
+</body>
+</html>

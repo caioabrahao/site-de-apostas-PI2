@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apostar em Evento</title>
+
+    <style>
+        #eventDescriptionBox{
+
+            /* colocar width*/
+            width: 1600px;
+            border: 2px solid black; 
+            padding: 20px;
+            margin: 0 auto;
+            
+
+        }
+
+        .betOnEventContainer{
+
+            width: 1600px; /* Define a largura da box */
+            border: 2px solid black;
+            padding: 20px;
+            margin: 0 auto; /* Centraliza o container */
+
+        }
+
+        .confirmBetBox{
+            
+            display: flex;
+            justify-content: space-between;
+            align-items: center; /* Centraliza verticalmente */
+            border: transparent;
+            padding: 10px;
+
+        }
+
+        .betOnEventBox {
+            display: flex;
+            justify-content: space-between;
+            align-items: center; /* Centraliza verticalmente */
+            border: 2px solid gray;
+            padding: 10px;
+        }
+
+        .divider {
+            width: 1px;
+            background-color: black; /* Cor da barra */
+            height: 100px; /* Altura da barra */
+        }
+
+        .left, .right {
+            width: 48%; /* Cada div ocupa cerca de 50% da largura */
+            border-color: transparent;
+            margin: 5px;
+        }
+
+        input[type="radio"] {
+            display: none;
+        }
+
+        .label_betOption_button {
+            cursor: pointer;
+            padding: 10px 20px;
+            border: 2px solid #ccc;
+            border-radius: 20px;
+            margin-bottom: 10px; /* Espaçamento entre os botões */
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            display: block; /* Faz o label ocupar toda a largura disponível e ficar em linha separada */
+        }
+
+        .label_betOption_button:hover {
+            background-color: #f0f0f0;
+        }
+
+        input[type="radio"]:checked + label {
+            background-color: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        .submitButton {
+            
+            background-color: green;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .submitButton:hover {
+            background-color: darkgreen;
+        }
+
+        .redButton {
+
+            background-color: crimson;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+
+        }
+
+        .redButton:hover {
+            background-color: darkred;
+        }
+
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">SerasaBET</h1>
+    <a href="{{url_for('home')}}">Home</a>
+    <hr>
+    <p>Olá, {{user_firstname}}</p>
+    <p>Saldo R$ {{user_funds}}</p>
+    <a href="{{url_for('my_wallet')}}">Minha Carteira</a>
+    <br>
+    <a href="{{url_for('logout')}}">Logout</a>
+    <hr>
+
+    <br>
+    <br>
+    {% if confirm_event == False %}
+    <div id="eventDescriptionBox">
+        <div>
+            <h2 style="text-align: center;">{{evento.Title}}</h2>
+        </div>
+        <div id="descriptionList">
+            <p>Autor: {{evento.AuthorName}}</p>
+            <p>Descrição: {{evento.Description}}</p>
+            <p>Categoria: {{evento.Category}}</p>
+            <p>Data do Evento: {{evento.Date}}</p>
+        </div>
+        <br>
+        <p>Início das Apotas: {{evento.DateEventStarts}}</p>
+        <p>Fim das Apostas: {{evento.DateEventEnds}}</p>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+    <form method="POST" action="{{url_for('bet_on_event', event_id = event_id)}}">
+        <div class="betOnEventContainer">
+            <h2 style="text-align: center;">APOSTAR EM EVENTO</h2>
+            <div class="betOnEventBox">
+                
+                <div class="left">
+                    <h3>Valor da Aposta</h3>
+                    <hr>
+                    <p>Valor da Quota: R$ {{"%.2f"|format(evento.MinimumQuota)}}</p>
+                    <p><i>O valor da quota indica o valor mínimo de aposta</i></p>
+                    <br>
+                    <br>
+                    <label>Valor da sua Aposta</label>
+                    <input type="text" name="bet_value" placeholder="R$" required>
+                    {% if error_below_quota %}
+                    <p style="color: red;">Sua aposta deve ser maior do que a cota mínima (R$ {{"%.2f"|format(evento.MinimumQuota)}})</p>
+                    {% endif %}
+                    {% if error_not_enough_funds %}
+                    <p style="color: red;">Você não possui saldo suficiente!</p>
+                    <p style="color: red;">Você pode adicionar saldos <a href="{{url_for('add_funds')}}">clicando aqui</a></p>
+                    {% endif %}
+                    
+                </div>
+                <div class="divider">
+                </div>
+                <div class="right">
+                    <h3>Palpite da Aposta</h3>
+                    <hr>
+                    <p><b>Você acredita que o evento irá ocorrer?</b></p>
+                        <input type="radio" id="sim" name="bet_option" value="SIM">
+                        <label class="label_betOption_button" for="sim">Sim</label>
+    
+                        <input type="radio" id="nao" name="bet_option" value="NÃO">
+                        <label class="label_betOption_button" for="nao">Não</label>
+
+                        {% if error_no_option_chosen %}
+                        <p style="color: red;">SELECIONE SEU PALPITE ANTES DE APOSTAR!</p>
+                        {% endif %}
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <br>
+                <button type="submit" class="submitButton">APOSTAR</button>
+                <br>
+            </div>
+        </div>
+    </form>
+    {% endif %}
+    
+    {% if confirm_event == true %}
+    <h2 style="text-align: center;">CONFIRMAR APOSTA</h2>
+    <div class="betOnEventContainer">
+        <br>
+        <h2>{{evento.Title}}</h2>
+        <h3>{{evento.Description}}</h4>
+        <h3>Data do Evento: {{evento.Date}}</h4>
+        <br>
+        <p style="font-size: 24px;"><b>Seu palpite:</b> {{bet_option}}</p>
+        <p style="font-size: 24px;"><b>Sua aposta:</b> R$ {{"%.2f"|format(bet_value)}}</p>
+    </div>
+    <br>
+    <br>
+    <div style="text-align: center;">
+        <form method="POST" action="{{url_for('bet_on_event', event_id = event_id)}}">
+            <input type="hidden" name="confirm_bet" value="true">
+            <button type="submit" class="submitButton">Finalizar Aposta</button>
+        </form>
+        <br>
+        <a method="" href="{{ url_for('bet_on_event', event_id = event_id) }}" class="redButton">Voltar</a>
+    </div>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,178 @@
+Documentação OracleDB SQL:
+
+https://python-oracledb.readthedocs.io/en/latest/user_guide/sql_execution.html
+
+
+TO DO:
+
+Melhorar o esquema de tabela
+
+Em login usar o id do login como id de usuario (foreign key e primary key ao mesmo tempo - simplificar a tabela)
+
+
+Utilizar o trigger para automatizar o valor do saldo (ao invés de usar o backend)
+
+
+=========================================================================================================
+
+Para o cadastro de novo usuário, utilizar seq_id_user.NEXTVAL para gerar um novo id de usuário
+Para permanecer na mesma chave primária de id_user, utilizar seq_id_user.CURRVAL (ao criar tabelas correspondentes a esse novo usuário)
+
+
+Não esquecer de reiniciar a sequência toda vez que recriar a tabela que utiliza ela
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   ESQUEMA DE TABELAS   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+SELECT * FROM usuario;
+SELECT * FROM login;
+SELECT * FROM aposta;
+SELECT * FROM transacao;
+
+DELETE FROM usuario;
+DELETE FROM login;
+DROP SEQUENCE seq_id_user;
+DROP TRIGGER atualizar_saldo_insert_transacao;
+
+DROP TABLE usuario;
+DROP TABLE login;
+DROP TABLE aposta;
+DROP TABLE transacao;
+DROP TABLE usuario_aposta;
+
+
+CREATE SEQUENCE seq_id_user
+    START WITH 1
+    INCREMENT BY 1
+    MINVALUE 0
+    MAXVALUE 100
+    NOCACHE;
+
+CREATE TABLE usuario(
+
+    id_user NUMBER,
+
+    primeiro_nome NVARCHAR2(30) NOT NULL,
+    sobrenome NVARCHAR2(255) NOT NULL,
+
+    cpf_usuario CHAR(11) UNIQUE NOT NULL,
+    telefone_usuario NCHAR(11) NOT NULL,
+
+    nome_endereco NVARCHAR2(255) NOT NULL,
+    numero_endereco NCHAR(5) NOT NULL,
+    cep_endereco CHAR(8) NOT NULL,
+    cidade_endereco NVARCHAR2(40) NOT NULL,
+    uf_endereco CHAR(2) NOT NULL,
+
+    saldo NUMBER(11,2) DEFAULT 0,
+
+    CONSTRAINT pk_USUARIO_user_id PRIMARY KEY (id_user)
+
+);
+
+CREATE TABLE login(
+    
+    id_user NUMBER,
+    email_usuario NVARCHAR2(150) NOT NULL,
+    senha_usuario NVARCHAR2(16) NOT NULL,
+    user_type NVARCHAR2(4) CHECK(user_type IN('MOD','USER')),
+    
+    CONSTRAINT pk_login_id_user PRIMARY KEY(id_user),
+    CONSTRAINT fk_login_id_user FOREIGN KEY(id_user) REFERENCES usuario(id_user)
+
+);
+
+
+CREATE TABLE aposta (
+    id_aposta CHAR(36),
+    id_user_author NUMBER,
+    titulo NVARCHAR2(50) NOT NULL,
+    descricao NVARCHAR2(300) DEFAULT 'Sem descrição',
+    categoria NVARCHAR2(30) CHECK (categoria IN     ('BOLSA DE VALORES',
+                                                     'CELEBRIDADES',
+                                                     'EVENTOS CLIMÁTICOS',
+                                                     'E-SPORTS',
+                                                     'ELEIÇÕES/POLÍTICA',
+                                                     'FUTEBOL',
+                                                     'OLIMPÍADAS',
+                                                     'OUTROS')),
+                                                
+    data_evento DATE,
+    
+    quota_minima NUMBER(4,2),
+    
+    data_inicio DATE,
+    data_termino DATE,
+    
+    montante_opcao_sim NUMBER(11,2) DEFAULT 0,
+    montante_opcao_nao NUMBER(11,2) DEFAULT 0,
+    
+    
+    winner_option CHAR(3)   DEFAULT NULL 
+                            CHECK (winner_option IN('SIM', 
+                                                    'NÃO', 
+                                                    NULL)),
+
+
+    status NCHAR(10) CHECK (status IN ('APROVADO', 'REPROVADO', 'EM ANÁLISE', 'TERMINADO')),
+
+    CONSTRAINT pk_APOSTA_id_aposta PRIMARY KEY (id_aposta),
+    CONSTRAINT fk_APOSTA_id_user FOREIGN KEY (id_user_author) REFERENCES usuario(id_user)
+);
+
+
+/* TRANSAÇÕES SÃO DO TIPO:
+
+Para valores positivos:-
++ DEPÓSITO (addFunds)
++ VITÓRIA EM EVENTO (ao ganhar uma aposta)
+
+Para valores negativos:
+- SAQUE (withdrawFunds)
+- DERROTA EM EVENTO ()
+
+*/
+
+CREATE TABLE transacao(
+
+    id_transaction CHAR(36),
+    id_user NUMBER,
+    id_aposta CHAR(36),
+    
+    date_transaction DATE,
+    valor NUMBER(11,2),
+    descricao NVARCHAR2(500),
+    
+    tipo NVARCHAR2(40) CHECK (tipo IN('DEPÓSITO','VITÓRIA EM EVENTO','SAQUE','DERROTA EM EVENTO','SALDO EM APOSTA','OUTRO')),
+    
+    
+    CONSTRAINT pk_transacao_id_transaction PRIMARY KEY (id_transaction),
+    CONSTRAINT fk_transacao_id_aposta FOREIGN KEY (id_aposta) REFERENCES aposta(id_aposta),
+    CONSTRAINT fk_transacao_id_user FOREIGN KEY (id_user) REFERENCES usuario(id_user)
+
+);
+
+CREATE TABLE usuarioAposta(
+    
+    id_aposta CHAR(36),
+    id_user NUMBER,
+    id_transaction CHAR(36),
+    
+    bet_value NUMBER(11,2),
+    bet_option NCHAR(3) CHECK(bet_option in ('SIM','NÃO')),
+    
+    CONSTRAINT pk_usuarioAposta PRIMARY KEY (id_aposta, id_user, id_transaction),
+    CONSTRAINT fk_usuarioAposta_id_aposta FOREIGN KEY (id_aposta) REFERENCES aposta(id_aposta),
+    CONSTRAINT fk_usuarioAposta_id_user FOREIGN KEY (id_user) REFERENCES usuario(id_user),
+    CONSTRAINT fk_usuarioAposta_id_transaction FOREIGN KEY (id_transaction) REFERENCES transacao(id_transaction)
+
+);
+
+CREATE OR REPLACE TRIGGER atualizar_saldo_insert_transacao
+AFTER INSERT ON transacao
+FOR EACH ROW
+BEGIN
+    UPDATE usuario SET saldo = saldo + :NEW.valor
+           WHERE id_user = :NEW.id_user;
+END;
+/

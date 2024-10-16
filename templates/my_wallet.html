@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Carteira</title>
+</head>
+<body>
+    <h1 style="text-align: center;">SerasaBET</h1>
+    <a href="{{url_for('home')}}">Home</a>
+    <hr>
+    <p>Olá, {{user_firstname}}</p>
+    <p>Saldo R$ {{user_funds}}</p>
+    <a href="{{url_for('my_wallet')}}">Minha Carteira</a>
+    <br>
+    <a href="{{url_for('logout')}}">Logout</a>
+    <hr>
+    <h2 style="text-align: center;">CARTEIRA</h1>
+    <br>
+    <fieldset>
+        <h3 style="text-align: center;">Saldo: R$ {{user_funds}}</h3>
+    </fieldset>
+    <br>
+    <div style="text-align: center;">
+        <a style="text-align: center;" href="{{url_for('add_funds')}}">Adicionar Saldo</a>
+        <br>
+        <p>Sacar Saldo</p>
+        <a style="text-align: center;" href="{{url_for('funds_history')}}">Histórico de Transações</a>
+    </div>
+</body>
+</html>

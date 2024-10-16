@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <h1 style="text-align: center;">SERASABET</h1>
+    <hr>
+    <h2 style="text-align: center;">Login</h2>
+    <br>
+    <form method="POST" action="/login">
+        <fieldset>
+            <label>Usuário</label>
+            <input type="text" name="txtUsername" required>
+            <br>
+            <br>
+            <label>Senha</label>
+            <input type="password" name="txtPassword" required>
+            {% if valid_login == false %}
+            <p style="color:red">Usuário e/ou Senha inválido(s)!</p>
+            {% endif %}
+            <br>
+            <br>
+            <button type="submit">Entrar</button>
+        </fieldset>
+    </form>
+</body>
+</html>

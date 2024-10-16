@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Saldo</title>
+</head>
+<body>
+    <h1 style="text-align: center;">SerasaBET</h1>
+    <a href="{{url_for('home')}}">Home</a>
+    <hr>
+    <p>Olá, {{user_firstname}}</p>
+    <p>Saldo R$ {{user_funds}}</p>
+    <a href="{{url_for('my_wallet')}}">Minha Carteira</a>
+    <br>
+    <a href="{{url_for('logout')}}">Logout</a>
+    <hr>
+    <h2 style="text-align: center;">ADICIONAR SALDO</h2>
+    <br>
+    <form method="POST" action='/addFunds/creditCard'>
+        <fieldset>
+            <h4>Informações do Cartão</h4>    
+            <label>Número do Cartão </label>
+            <input type="text" required>
+            <br>
+            <br>
+            <label>Nome no Cartão </label>
+            <input type="text" required>
+            <br>
+            <br>
+            <label>Data de Validade </label>
+            <select>
+                <option value="" disabled selected>Selecione o Mês</option>
+                <option value="01">Janeiro</option>
+                <option value="02">Fevereiro</option>
+                <option value="03">Março</option>
+                <option value="04">Abril</option>
+                <option value="05">Maio</option>
+                <option value="06">Junho</option>
+                <option value="07">Julho</option>
+                <option value="08">Agosto</option>
+                <option value="09">Setembro</option>
+                <option value="10">Outubro</option>
+                <option value="11">Novembro</option>
+                <option value="12">Dezembro</option>            
+            </select>
+            <select>
+                
+            </select>
+            <br>
+            <br>
+            <label>CVV</label>
+            <input type="text" required>
+        </fieldset>
+        <br>
+        <br>
+        <fieldset>
+            <h4>Selecione o saldo a ser adicionado:</h4>
+            <input type="radio" name="radio_value" value="10"  onclick="mostrarCampoTexto(false)">
+            <label>R$ 10,00</label>
+            <br>
+            <input type="radio" name="radio_value" value="25" onclick="mostrarCampoTexto(false)">
+            <label>R$ 25,00</label>
+            <br>
+            <input type="radio" name="radio_value" value="50" onclick="mostrarCampoTexto(false)">
+            <label>R$ 50,00</label>
+            <br>
+            <input type="radio" name="radio_value" value="100" onclick="mostrarCampoTexto(false)">
+            <label>R$ 100,00</label>
+            <br>
+            <input type="radio" name="radio_value" value ="other" onclick="mostrarCampoTexto(true)">
+            <label>Outro</label>
+
+            <div id="campoTexto" style="display: none;">
+                <label>Insira o valor: </label>
+                <input type="text" id="textoValue" name="txt_input_value_other">
+            </div>
+        </fieldset>
+        <br>
+        <button type="submit">Efetuar Pagamento</button>
+        <script>
+            function mostrarCampoTexto(mostrar) {
+                var campoTexto = document.getElementById('campoTexto');
+                var inputTexto = document.getElementById('textValue');
+                if (mostrar) {
+                    campoTexto.style.display = 'block';  // Mostra o campo de texto
+                } else {
+                    campoTexto.style.display = 'none';   // Esconde o campo de texto
+                    textValue.value = '';
+                }
+            }
+        </script>
+    </form>
